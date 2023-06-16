@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import "./client.css";
-import logo from "./logo.jpeg";
-import { Link } from "react-router-dom";
+import logo from "./logo.jpeg"; // Replace with the path to your logo image
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
-const AdminLogin = () => {
+const LoginClient = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -14,11 +15,24 @@ const AdminLogin = () => {
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
+  const navigate = useNavigate();
+  axios.defaults.withCredentials = true;
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    axios
+      .post("http://localhost:8000/client", { username, password })
+      .then((res) => {
+        if (res.data.Status === "Success") {
+          navigate(`/home`);
+        } else {
+          alert("Error loging in");
+        }
+      })
+      .catch((err) => console.log(err));
+
     // Add login logic here
-    console.log("User Login:", username, password);
+    console.log("Client Login:", username, password);
     // Clear the input fields
     setUsername("");
     setPassword("");
@@ -28,10 +42,10 @@ const AdminLogin = () => {
     <div className="container-bg">
       <div className="login-container">
         <img src={logo} alt="Logo" className="logo" />
-        <h2>Admin Login</h2>
+        <h2>Client Login</h2>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label htmlFor="username">Adminame:</label>
+            <label htmlFor="username">Username:</label>
             <input
               type="text"
               id="username"
@@ -48,20 +62,31 @@ const AdminLogin = () => {
               onChange={handlePasswordChange}
             />
           </div>
-          <Link to="/admin">
-            <button type="submit">Login</button>
-          </Link>
+
+          <button type="submit">Login</button>
         </form>
         <div className="login-options">
           <ul>
             <li>
-              <Link to="/">Client Login</Link>
+              <Link className="red" to="/adminlog">
+                Admin login
+              </Link>
             </li>
             <li>
-              <Link to="/login-user1">User Type 1 Login</Link>
+              <Link className="red" to="/login-user1">
+                User Type 1
+              </Link>
             </li>
             <li>
-              <Link to="/login-user2">User Type 2 Login</Link>
+              <Link className="red" to="/login-user2">
+                User Type 2
+              </Link>
+            </li>
+            <p>
+              <strong>or create new account</strong>
+            </p>
+            <li>
+              <Link to="/signup">Sign up</Link>
             </li>
           </ul>
         </div>
@@ -70,4 +95,4 @@ const AdminLogin = () => {
   );
 };
 
-export default AdminLogin;
+export default LoginClient;
