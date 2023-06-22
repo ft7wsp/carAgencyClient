@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-// import './PublicPage.css'; // Import the CSS file for styling
+import "./publicPage.css"; // Import the CSS file for styling
 import axios from "axios";
 import Slideshow from "./Sideshow";
 import styles from "./public.module.css";
+import { Link } from "react-router-dom";
 
 const Public = () => {
   const [cars, setCars] = useState([]);
@@ -36,8 +37,12 @@ const Public = () => {
   return (
     <div className={styles.publicPage}>
       <section className={styles.signButtons}>
-        <button className={styles.signInButton}>Sign In</button>
-        <button className={styles.signUpButton}>Sign Up</button>
+        <Link to="/login" className={styles.signInButton}>
+          Sign In
+        </Link>
+        <Link to="/signup" className={styles.signUpButton}>
+          Sign Up
+        </Link>
       </section>
       <div className={styles.titleContainer}>
         <h1 className={styles.title}>the title</h1>
@@ -60,9 +65,9 @@ const Public = () => {
                 <p>Brand: {car.Marque}</p>
                 <p>Engine: {car.Moteur}</p>
                 <p>Price: {car.Prix}</p>
-                <button onClick={(e) => handleBox(car.ID_voiture)}>
+                <Link to="/login" onClick={(e) => handleBox(car.ID_voiture)}>
                   click
-                </button>
+                </Link>
               </div>
             </div>
           ))}

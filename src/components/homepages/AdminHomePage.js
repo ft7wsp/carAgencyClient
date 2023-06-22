@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 
 const UserHomePage = () => {
   const [cars, setCars] = useState([]);
+  const [msg, setMsg] = useState([]);
+  const [showMsg, setShowMsg] = useState(false);
 
   useEffect(() => {
     // Fetch the list of available cars from the backend
@@ -57,8 +59,52 @@ const UserHomePage = () => {
     });
   };
 
+  const handleReqs = (e) => {
+    console.log("hey threr");
+    // axios
+    //   .get("http://localhost:8000/clients/reqs")
+    //   .then((res) => {
+    //     console.log(res);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+
+    axios
+      .get("http://localhost:8000/client")
+      .then((res) => {
+        setShowMsg(!showMsg);
+        setMsg(res.data);
+        res.data.map((clt) => {
+          console.log(clt);
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleAccept = () => {
+    console.log("accepted");
+  };
+
   return (
     <div className="user-home-container">
+      {showMsg && (
+        <div>
+          {msg.map((clt) => (
+            <>
+              {clt.demandes == null ? null : (
+                <>
+                  <h3>{clt.Adresse}</h3>
+                  <p>{clt.demandes}</p>
+                  <button onClick={handleAccept}>accept</button>
+                </>
+              )}
+            </>
+          ))}
+        </div>
+      )}
       <h2>Available Cars for Rent to the users</h2>
       <div className="car-list">
         {cars.map((car) => (
@@ -132,6 +178,7 @@ const UserHomePage = () => {
           <button type="submit">Add</button>
         </form>
       )}
+      <button onClick={handleReqs}>see msg of all clients</button>
     </div>
   );
 };

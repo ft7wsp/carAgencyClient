@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./client.css";
-import logo from "./logo.jpeg";
+import logo from "./logo.png";
 import { Link } from "react-router-dom";
 
 const AdminLogin = () => {
@@ -55,13 +55,7 @@ const AdminLogin = () => {
         <div className="login-options">
           <ul>
             <li>
-              <Link to="/">Client Login</Link>
-            </li>
-            <li>
-              <Link to="/login-user1">User Type 1 Login</Link>
-            </li>
-            <li>
-              <Link to="/login-user2">User Type 2 Login</Link>
+              <Link to="/login">Client Login</Link>
             </li>
           </ul>
         </div>

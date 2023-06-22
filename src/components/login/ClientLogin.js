@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./client.css";
-import logo from "./logo.jpeg"; // Replace with the path to your logo image
+import logo from "./logo.png"; // Replace with the path to your logo image
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -24,7 +24,17 @@ const LoginClient = () => {
       .post("http://localhost:8000/client", { username, password })
       .then((res) => {
         if (res.data.Status === "Success") {
-          navigate(`/home`);
+          const usr = username.split("@")[0];
+          // axios
+          //   .get(`http://localhost:8000/client/${usr}`)
+          //   .then((res) => {
+          //     navigate(`/home`, { state: { user: res.data[0] } });
+          //   })
+          // .catch((err) => {
+          //   console.log(err);
+          // });
+
+          navigate(`/home/${usr}`);
         } else {
           alert("Error loging in");
         }
@@ -33,6 +43,7 @@ const LoginClient = () => {
 
     // Add login logic here
     console.log("Client Login:", username, password);
+
     // Clear the input fields
     setUsername("");
     setPassword("");
@@ -70,16 +81,6 @@ const LoginClient = () => {
             <li>
               <Link className="red" to="/adminlog">
                 Admin login
-              </Link>
-            </li>
-            <li>
-              <Link className="red" to="/login-user1">
-                User Type 1
-              </Link>
-            </li>
-            <li>
-              <Link className="red" to="/login-user2">
-                User Type 2
               </Link>
             </li>
             <p>
